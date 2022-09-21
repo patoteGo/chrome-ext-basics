@@ -12,11 +12,17 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 			text: `${time + 1}`
 		})
 
-		if(time % 10 == 0) { //this will show every 10 seconds
-			this.registration.showNotification('Chrome Timer Extension', {
-				body: '10 seconds has passed!',
+		chrome.storage.sync.get(['notificationTime'], res => {
+			const notificationTime = res.notificationTime ?? 1000
+			if(time % notificationTime == 0) { //this will show every 10 seconds
+				this.registration.showNotification('Chrome Timer Extension', {
+				body: `${notificationTime} seconds has passed!`,
 				icon: 'icon.png'
 			})
 		}
+		})
+
+
+	
 	})
 })
